@@ -1,0 +1,52 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "generated.education.attendance";
+option java_outer_classname = "AttendanceServiceImpl";
+
+package AttendanceService;
+
+// ===============================
+// AttendanceService Definition
+// ===============================
+//
+// This service allows marking attendance for students.
+// - Unary RPC: MarkAttendance → records a single student's attendance
+// - Client Streaming RPC: BatchMarkAttendance → records attendance for multiple students in a batch
+//
+// The server implementation must extend AttendanceServiceImplBase
+//
+service AttendanceService {
+
+  // Unary RPC: Mark attendance for a single student
+  // Request contains student_id, timestamp, and class_id
+  // Response confirms if attendance was recorded
+  rpc MarkAttendance(AttendanceRequest) returns (AttendanceReply);
+
+  // Client Streaming RPC: Mark attendance for multiple students in a batch
+  // Client sends a stream of AttendanceRequest messages
+  // Server responds with a summary of how many students were marked present
+  rpc BatchMarkAttendance(stream AttendanceRequest) returns (AttendanceSummary);
+}
+
+// ===============================
+// Request & Response Messages
+// ===============================
+
+// Request message for marking attendance
+message AttendanceRequest {
+  string student_id = 1;   // Unique student ID (e.g., "x23410345")
+  string timestamp = 2;    // ISO 8601 timestamp of attendance (e.g., "2025-07-05T08:30:00Z")
+  string class_id = 3;     // Unique class identifier (e.g., "HDCSDEVINTJAN25I")
+}
+
+// Response message for a single attendance request
+message AttendanceReply {
+  bool success = 1;        // true if attendance recorded successfully
+  string message = 2;      // e.g., "Attendance recorded for x23410345"
+}
+
+// Response message summarizing batch attendance
+message AttendanceSummary {
+  string summary = 1;      // e.g., "2 students marked present"
+}

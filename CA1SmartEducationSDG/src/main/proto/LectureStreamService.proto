@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "generated.lecture.stream";
+option java_outer_classname = "LectureStreamServiceImpl";
+
+package LectureStreamService;
+
+// The service definition for Lecture Streaming
+service LectureStreamService {
+  
+  // Unary RPC to start lecture streaming for a given course and instructor
+  rpc StartStreaming (StreamStartRequest) returns (StreamReply) {}
+
+  // Server streaming RPC to view a previously recorded lecture
+  rpc ViewLectureRecording (RecordingRequest) returns (stream LectureFrame) {}
+
+}
+
+// Request message to initiate lecture streaming
+message StreamStartRequest {
+  string course_id = 1;     // Course identifier (e.g., "DS801")
+  string instructor = 2;    // Name of the instructor (e.g., "Dr. Trina")
+}
+
+// Reply message after initiating the stream
+message StreamReply {
+  string stream_url = 1;    // URL of the stream (e.g., "https://stream.ncirl.ie/ds801")
+  string status = 2;        // Status of the stream (e.g., "active" or "offline")
+}
+
+// Request to view a specific lecture recording
+message RecordingRequest {
+  string course_id = 1;     // Course identifier for the recording
+  string date = 2;          // Date of the recording (e.g., "2025-07-05")
+}
+
+// Streaming message representing each frame of the lecture
+message LectureFrame {
+  bytes frame_data = 1;     // Binary frame data (video/audio/image)
+  string timestamp = 2;     // Timestamp of the frame (e.g., "00:00:12" in ISO 8601 or HH:MM:SS)
+}
