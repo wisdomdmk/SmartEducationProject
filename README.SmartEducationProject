@@ -1,0 +1,61 @@
+SmartEducationProject README
+Introduction
+The Smart Automated Learning Environment (SALE) is a Java-based application supporting the United Nations SDG 4: Quality Education. It simulates a smart classroom ecosystem using gRPC, enhancing accessibility, personalized learning, classroom optimization, and administrative efficiency. The system integrates three services: Smart Attendance Service, Smart Lecture Streaming Service, and Smart Environment Monitor Service, communicating in real-time with hardcoded addresses for simplicity.
+System Goals
+•	Enhance accessibility (virtual and physical).
+•	Provide personalized learning experiences.
+•	Optimize classroom environments.
+•	Streamline routine administrative tasks.
+Service Definitions
+Smart Attendance Service
+•	Purpose: Automates attendance via RFID or facial recognition.
+•	RPCs: 
+o	MarkAttendance(AttendanceRequest) returns (AttendanceReply): Records single attendance.
+o	BatchMarkAttendance(stream AttendanceRequest) returns (AttendanceSummary): Processes multiple records.
+•	Messages: 
+o	AttendanceRequest: string student_id, string timestamp, string class_id
+o	AttendanceReply: bool success, string message
+o	AttendanceSummary: string summary
+Smart Lecture Streaming Service
+•	Purpose: Streams and records classes for remote access.
+•	RPCs: 
+o	StartStreaming(StreamStartRequest) returns (StreamReply): Initiates live streams.
+o	ViewLectureRecording(RecordingRequest) returns (stream LectureFrame): Streams archived sessions.
+•	Messages: 
+o	StreamStartRequest: string course_id, string instructor
+o	StreamReply: string stream_url, string status
+o	RecordingRequest: string course_id, string date
+o	LectureFrame: bytes frame_data, string timestamp
+Smart Environment Monitor Service
+• Function: Comfort temperature and lighting control.
+• RPCs:
+o MonitorEnvironment(stream SensorData) returns (stream AdjustmentCommand): Bi-directional streaming of commands and sensor data.
+• Messages:
+o SensorData: float temperature, float light_level, string timestamp
+o AdjustmentCommand: string action, string target_device
+Service Implementations
+• Smart Attendance Service: AttendanceServiceImpl on port 50051 manages individual and batch attendance with ID check.
+• Smart Lecture Streaming Service: LectureStreamServiceImpl on port 50052 manages live and recorded streams with delays.
+• Smart Environment Monitor Service: EnvironmentMonitorServiceImpl on port 50053 fine-tunes environments
+ with dynamic thresholds.
+Naming Services
+•	Services use hardcoded ports (50051, 50052, 50053) to discover.
+•	A production system would use a service registry (e.g., Consul).
+Remote Error Handling & Advanced Features
+•	Error Handling: Uses try-catch for gRPC exceptions, console and GUI logging.
+•	Advanced Features:
+o	Attendance: Checks IDs against mock database.
+o	Lecture Streaming: Records frames locally.
+o	Environment Monitor: Checks history for tuning.
+Client - Graphical User Interface (GUI)
+• Designed with Java Swing with tabs for each service.
+• Supports buttons, log text areas, and tables for stream data.
+GitHub Repository
+• URL: https://github.com/wisdomdmk/SmartEducationProject.git
+• Contents: Proto files, Java source code, GUI components, and documentation.
+• Access: Public or collaborator access for the lecturer.
+•.commits: Standard history showing development progress.
+Conclusion
+SALE possesses a strong infrastructure for intelligent learning in line with SDG 4, with room for development in the future
+The SALE app illustrates converged smart technology that delivers greatly improved quality, accessibility, 
+and operational effectiveness in education in accordance with UN SDG 4.
