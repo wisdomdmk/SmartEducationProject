@@ -51,7 +51,7 @@ Client - Graphical User Interface (GUI)
 • Designed with Java Swing with tabs for each service.
 • Supports buttons, log text areas, and tables for stream data.
 GitHub Repository
-• URL: https://github.com/wisdomdmk/SmartEducationProject.git
+• URL: https://github.com/wisdomdmk/SmartEducationProject
 • Contents: Proto files, Java source code, GUI components, and documentation.
 • Access: Public or collaborator access for the lecturer.
 •.commits: Standard history showing development progress.
